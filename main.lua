@@ -1,10 +1,13 @@
 --This is a new Game I made using tutorials from SockMunkee.com ...
 
 function love.load()
-onMenu = true;
-menu = require("menu");
-menu.loadMenu();
-willQuit = false;
+  pNum = 1;
+
+  onMenu = true;
+  menu = require("menu");
+  menu.loadMenu(pNum);
+
+  willQuit = false;
 end
 
 function love.update(dt)
@@ -14,7 +17,7 @@ function love.update(dt)
 end
 
 function love.draw()
-if(onMenu)then
+  if(onMenu)then
     menu.drawMenu();
   else
 
@@ -29,9 +32,11 @@ end
 
 function love.mousepressed(x, y, button, isTouch)
   if button == 1 then
-    willQuit = menu.mousepressed(x,y);
-    if(willQuit)then
-      love.event.quit(exitstatus)
+    if onMenu then
+      willQuit = menu.mousepressed(x,y);
+      if(willQuit)then
+        love.event.quit(exitstatus)
+      end
     end
   end
 end

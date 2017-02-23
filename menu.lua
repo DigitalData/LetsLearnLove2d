@@ -1,6 +1,6 @@
 local m = {};
 
-function loadMenu()
+function loadMenu(num)
   title = love.graphics.newFont("assets/fonts/titlefont.ttf",150);
   namea = 255;
   nameadown = true;
@@ -16,6 +16,16 @@ function loadMenu()
   musicV = 100;
   buttonX = (love.graphics.getWidth() / 2) - 110;
   mainButtonY = {};
+  pNum = num;
+  playerPrev = love.graphics.newQuad(0, 0, 16, 16, 16, 48);
+  pPrev = {};
+  for i=1,pNum do
+    pPrev[i] = {};
+  end
+  pPrev[1][1] = love.graphics.newImage("assets/playermodels/model1.png");
+  pPrev[1][2] = "Red Jacket Kid";
+  prevX = {};
+
 end
 
 function drawMenu()
@@ -34,6 +44,7 @@ function drawMenu()
   elseif(options) then
     drawOptions();
   elseif(start)then
+    drawStart();
   elseif(quit) then
   end
 
@@ -53,6 +64,7 @@ function updateMenu(dt)
   elseif(options) then
     updateOptions();
   elseif(start)then
+    updateStart();
   elseif(quit) then
   end
 
@@ -150,6 +162,38 @@ function updateOptions()
 
 end
 
+function drawStart()
+
+  local hoverNum = -1;
+  for i=1,pNum do
+  if (mouseX > prevX[i]) and (mouseX < prevX[i] + 68) then
+      if(mouseY > 398) and (mouseY < 398 + 68)then
+        if i==1 then
+          hoverOver = true;
+          hoverNum = i;
+        end
+      end
+    end
+  end
+
+  love.graphics.setColor(255, 255, 255, 255);
+  for i=1,pNum do
+    if( i == hoverNum )then
+      love.graphics.rectangle("fill", prevX[i], 398, 68, 68);
+    else
+      love.graphics.rectangle("line", prevX[i], 398, 68, 68);
+    end
+    love.graphics.draw(pPrev[i][1], playerPrev, prevX[i] + 2, 400,0 , 4, 4);
+    love.graphics.print(pPrev[i][2], prevX[i] -8, 474, 0, 0.2,0.2);
+  end
+end
+
+function updateStart()
+  for i=1,pNum do
+    prevX[i] = (winW / 2) - (252 - (i * 70));
+  end
+end
+
 function mousepressed(x, y)
   if(mainMenu) then
     if (x > buttonX) and (x < buttonX+200) then
@@ -175,6 +219,7 @@ function mousepressed(x, y)
         end
       end
     end
+  elseif(start)then
   end
 end
 
