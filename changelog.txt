@@ -1,0 +1,7 @@
+Official Lets Learn Love2d Changelog!
+
+25 February, 2017 - The Button Hover Update
++ Added Hover effects for menu buttons
++ Added ability to quit
++ Added ability to open options (WIP Menu)
++ Improved Button Placement on Screen
