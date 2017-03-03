@@ -29,6 +29,7 @@ function love.load(arg)
   player.x = love.graphics.getWidth() / 2;
   player.y = love.graphics.getHeight() / 2;
   player.angle = 0;
+  calcAngle = 0;
   weaponHitbox = love.physics.newBody(World, -10, -10, "kinematic");
   weaponUsed = false;
 
@@ -84,7 +85,8 @@ function updatePlayer(dt)
     testhit = false;
   end
 
-  player.angle = (math.pi) - math.atan2((love.mouse.getX() - player.x),(love.mouse.getY() - player.y));
+  calcAngle = math.atan2((love.mouse.getX() - player.x),(love.mouse.getY() - player.y));
+  player.angle = math.pi - calcAngle;
 
   if(player.modTimer >= player.modTLimit) then
     nextQuad = true;

@@ -21,9 +21,13 @@ function loadFist(World)
   fistY = 0;
   fistAngle = 0
 
-  fistHitboxB = love.physics.newBody(World, fistX + fistSprite:getWidth() / 2, fistY + fistSprite:getHeight() / 2, "kinematic");
+  fistHitAngle = 0;
+  fistHitboxB = love.physics.newBody(World, fistX, fistY, "kinematic");
   fistHitboxS = love.physics.newRectangleShape(16 * 4, 16 * 4);
   fistHitboxF = love.physics.newFixture(fistHitboxB, fistHitboxS, 0);
+
+  testX = 0;
+  testY = 0;
 end
 
 function drawFist()
@@ -42,22 +46,8 @@ function drawFist()
   end
   love.graphics.setColor(0, 200, 200, 255);
 
-  if(fistAngle >= 0 and fistAngle < math.pi)then
-  love.graphics.rectangle("fill", (fistX + (18 * math.cos(fistAngle))), (fistY + (18 * math.sin(fistAngle))), 16 * 2, 16 * 2);
-  love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle))), (fistY - (18 * math.sin(fistAngle))), 16 * 2, 16 * 2);
-elseif(fistAngle >= math.pi / 2 and fistAngle < math.pi)then
-  minus = math.pi / 2;
-  love.graphics.rectangle("fill", (fistX + (18 * math.cos(fistAngle-minus))), (fistY + (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-  love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle-minus))), (fistY - (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-elseif(fistAngle >= math.pi and fistAngle < 3 * math.pi / 2)then
-  minus = math.pi;
-  love.graphics.rectangle("fill", (fistX + (18 * math.cos(fistAngle-minus))), (fistY + (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-  love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle-minus))), (fistY - (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-elseif(fistAngle >= 3 * math.pi/2)then
-  minus = 3*math.pi / 2;
-  love.graphics.rectangle("fill", (fistX + (18 * math.cos(fistAngle-minus))), (fistY + (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-  love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle-minus))), (fistY - (18 * math.sin(fistAngle-minus))), 16 * 2, 16 * 2);
-  end
+  love.graphics.rectangle("fill", testX, testY, 16 * 2, 16 * 2);
+  --love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle))), testY, 16 * 2, 16 * 2);
 end
 
 function updateFist(dt,playerX,playerY, angle)
@@ -65,6 +55,9 @@ function updateFist(dt,playerX,playerY, angle)
 fistX = playerX;
 fistY = playerY;
 fistAngle = angle;
+fistHitAngle = fistAngle;
+testX = fistX + ( (18*math.sin(fistHitAngle)) - (9*math.cos((math.pi / 2) - fistHitAngle)) );
+testY = fistY - ( (18*math.cos(fistHitAngle)) + (9*math.sin((math.pi / 2) - fistHitAngle)) );
 
   if(not canUse)then
     if(canUseTimer >= canUseTimerMax)then
