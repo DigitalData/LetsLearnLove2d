@@ -1,5 +1,11 @@
 Official Lets Learn Love2d Changelog!
 
+3 March, 2017 - Mechanics Update
++ Added some basic mechanics in a subfolder
++ Added player
++ Added code for weapon integration
++ Added groundwork code for hitboxing
+
 24 February, 2017 - The Player Menu update
 + Added not yet working player menu
 + Added hover effect for player menu
