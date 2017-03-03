@@ -1,6 +1,9 @@
 --This is a new Game I made using tutorials from SockMunkee.com ...
 
 function love.load()
+music = love.audio.newSource("assets/sound/music/lmc.mp3", "stream");
+love.audio.play(music);
+
   pNum = 1;
 
   onMenu = true;
