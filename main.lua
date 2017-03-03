@@ -1,8 +1,8 @@
 --This is a new Game I made using tutorials from SockMunkee.com ...
 
 function love.load()
-music = love.audio.newSource("assets/sound/music/lmc.mp3", "stream");
-love.audio.play(music);
+  music = love.audio.newSource("assets/sound/music/lmc.mp3", "stream");
+  love.audio.play(music);
 
   pNum = 1;
 
@@ -16,6 +16,8 @@ end
 function love.update(dt)
   if(onMenu)then
     menu.updateMenu(dt);
+  else
+
   end
 end
 
@@ -45,9 +47,14 @@ function love.mousepressed(x, y, button, isTouch)
 end
 
 function love.keypressed(key, scancode, isrepeat)
+  if(key == "esc")then
+    if (onMenu) then
+      onMenu = false;
+    else
+      onMenu = true;
+    end
+  end
 
-end
-
-function love.quit()
-  -- body...
-end
+  function love.quit()
+    -- body...
+  end

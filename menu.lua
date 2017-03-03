@@ -166,7 +166,7 @@ function drawStart()
 
   local hoverNum = -1;
   for i=1,pNum do
-  if (mouseX > prevX[i]) and (mouseX < prevX[i] + 68) then
+    if (mouseX > prevX[i]) and (mouseX < prevX[i] + 68) then
       if(mouseY > 398) and (mouseY < 398 + 68)then
         if i==1 then
           hoverOver = true;
