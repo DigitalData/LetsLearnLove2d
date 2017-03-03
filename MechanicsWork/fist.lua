@@ -16,6 +16,7 @@ function loadFist(World)
   canUse = true;
   inUse = false;
   used = false;
+  damage = 100 / 3;
 
   fistX = 0;
   fistY = 0;
@@ -23,11 +24,11 @@ function loadFist(World)
 
   fistHitAngle = 0;
   fistHitboxB = love.physics.newBody(World, fistX, fistY, "kinematic");
-  fistHitboxS = love.physics.newRectangleShape(16 * 4, 16 * 4);
+  fistHitboxS = love.physics.newRectangleShape(16 * 2.5, 16 * 2);
   fistHitboxF = love.physics.newFixture(fistHitboxB, fistHitboxS, 0);
+  fistHitboxBX = 0;
+  fistHitboxBY = 0;
 
-  testX = 0;
-  testY = 0;
 end
 
 function drawFist()
@@ -45,19 +46,16 @@ function drawFist()
     love.graphics.draw(fistSprite, fistAnim.frameThree, fistX, fistY, fistAngle, 4,4,9,18);
   end
   love.graphics.setColor(0, 200, 200, 255);
-
-  love.graphics.rectangle("fill", testX, testY, 16 * 2, 16 * 2);
-  --love.graphics.rectangle("fill", (fistX - (18 * math.cos(fistAngle))), testY, 16 * 2, 16 * 2);
 end
 
 function updateFist(dt,playerX,playerY, angle)
 
-fistX = playerX;
-fistY = playerY;
-fistAngle = angle;
-fistHitAngle = fistAngle;
-testX = fistX + ( (18*math.sin(fistHitAngle)) - (9*math.cos((math.pi / 2) - fistHitAngle)) );
-testY = fistY - ( (18*math.cos(fistHitAngle)) + (9*math.sin((math.pi / 2) - fistHitAngle)) );
+  fistX = playerX;
+  fistY = playerY;
+  fistAngle = angle;
+  fistHitAngle = math.pi / 2 -angle;
+  fistHitboxBX = fistX + ( ((1.5*18)*math.cos(fistHitAngle))  );
+  fistHitboxBY = fistY - ( ((1.5*18)*math.sin(fistHitAngle)) );
 
   if(not canUse)then
     if(canUseTimer >= canUseTimerMax)then
@@ -98,10 +96,10 @@ function punch(dt)
 end
 
 function fistHit()
-  fistHitboxB:setX(fistX + (18 * math.sin(fistAngle)));
-  fistHitboxB:setY(fistY + (18 * math.cos(fistAngle)));
+  fistHitboxB:setX(fistHitboxBX);
+  fistHitboxB:setY(fistHitboxBY);
   fistHitboxB:setAngle(fistAngle);
-  return fistHitboxF, used;
+  return fistHitboxF, used, damage;
 end
 
 fistObject.loadFist = loadFist;

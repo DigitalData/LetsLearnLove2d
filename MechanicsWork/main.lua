@@ -29,6 +29,9 @@ function love.load(arg)
   player.x = love.graphics.getWidth() / 2;
   player.y = love.graphics.getHeight() / 2;
   player.angle = 0;
+  player.hitboxB = love.physics.newBody(World, player.x, player.y, "dynamic");
+  player.hitboxS = love.physics.newRectangleShape(16*3, 16*3);
+  player.hitboxF = love.physics.newFixture(player.hitboxB, player.hitboxS, 0);
   calcAngle = 0;
   weaponHitbox = love.physics.newBody(World, -10, -10, "kinematic");
   weaponUsed = false;
@@ -75,12 +78,20 @@ end
 
 function updatePlayer(dt)
 
+  player.hitboxB:setX(player.x);
+  player.hitboxB:setY(player.y);
+  player.hitboxB:setAngle(player.angle);
+
   weaponHitboxF, weaponUsed = fist.fistHit();
 
-  distance, x1, y1, x2, y2 = love.physics.getDistance(weaponHitboxF, testHitboxF);
+  distance = love.physics.getDistance(weaponHitboxF, player.hitboxF);
 
-  if(distance == 0)then
-    testhit = true;
+  if(weaponUsed)then
+    if(distance == 0)then
+      testhit = true;
+    else
+      testhit = false;
+    end
   else
     testhit = false;
   end
@@ -138,3 +149,13 @@ function drawPlayer()
     love.graphics.draw(player.sprite,player.models.right, player.x, player.y,player.angle, 4,4,8,8);
   end
 end
+
+function switchWeapon()
+end
+
+player.loadPlayer = loadPlayer;
+player.updatePlayer = updatePlayer;
+player.drawPlayer = drawPlayer;
+
+
+return player;
