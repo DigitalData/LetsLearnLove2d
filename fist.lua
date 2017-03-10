@@ -1,14 +1,19 @@
 local fistObject = {};
 
 function loadFist(World)
-  fistSprite = love.graphics.newImage("assets/playermodels/swingModel.png");
+  -- fistSprite = love.graphics.newImage("assets/playermodels/swingModel.png");
+  fistSprite = love.graphics.newImage("assets/playermodels/modeltest.png");
   fistAnim = {};
-  fistAnim.frameOne = love.graphics.newQuad(0, 0, 16, 16, fistSprite:getDimensions());
-  fistAnim.frameTwo = love.graphics.newQuad(0, 16, 16, 16, fistSprite:getDimensions());
-  fistAnim.frameThree = love.graphics.newQuad(0, 32, 16, 16, fistSprite:getDimensions());
+  -- fistAnim.frameOne = love.graphics.newQuad(0, 0, 16, 16, fistSprite:getDimensions());
+  -- fistAnim.frameTwo = love.graphics.newQuad(0, 16, 16, 16, fistSprite:getDimensions());
+  -- fistAnim.frameThree = love.graphics.newQuad(0, 32, 16, 16, fistSprite:getDimensions());
+
+  fistAnim.frameOne = love.graphics.newQuad(32, 0, 32,32, fistSprite:getDimensions());
+  fistAnim.frameTwo = love.graphics.newQuad(32, 32, 32,32, fistSprite:getDimensions());
+  fistAnim.frameThree = love.graphics.newQuad(32, 64, 32,32, fistSprite:getDimensions());
 
   animationTimer = 0;
-  animationTimerMax = 5;
+  animationTimerMax = 10;
   animationFrame = -1;
 
   canUseTimer = 0;
@@ -24,7 +29,7 @@ function loadFist(World)
 
   fistHitAngle = 0;
   fistHitboxB = love.physics.newBody(World, fistX, fistY, "kinematic");
-  fistHitboxS = love.physics.newRectangleShape(16 * 2.5, 16 * 2);
+  fistHitboxS = love.physics.newRectangleShape(16 * 3, 16 * 2);
   fistHitboxF = love.physics.newFixture(fistHitboxB, fistHitboxS, 0);
   fistHitboxBX = 0;
   fistHitboxBY = 0;
@@ -39,11 +44,13 @@ function drawFist()
   love.graphics.setColor(255, 255,255,255);
   if(animationFrame == -1)then
   elseif(animationFrame == 0)then
-    love.graphics.draw(fistSprite, fistAnim.frameOne, fistX, fistY, fistAngle, 4,4,9,18);
+    -- love.graphics.draw(fistSprite, fistAnim.frameOne, fistX, fistY, fistAngle, 4,4,9,18);
+    love.graphics.draw(fistSprite, fistAnim.frameOne, fistX, fistY, fistAngle, 3,3,16,16);
   elseif(animationFrame == 1)then
-    love.graphics.draw(fistSprite, fistAnim.frameTwo, fistX, fistY, fistAngle, 4,4,9,18);
+    -- love.graphics.draw(fistSprite, fistAnim.frameTwo, fistX, fistY, fistAngle, 4,4,9,18);
+    love.graphics.draw(fistSprite, fistAnim.frameTwo, fistX, fistY, fistAngle, 3,3,16,16);
   elseif(animationFrame == 2)then
-    love.graphics.draw(fistSprite, fistAnim.frameThree, fistX, fistY, fistAngle, 4,4,9,18);
+    love.graphics.draw(fistSprite, fistAnim.frameThree, fistX, fistY, fistAngle, 3,3,16,16);
   end
   love.graphics.setColor(0, 200, 200, 255);
 end
