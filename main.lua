@@ -1,14 +1,21 @@
 --This is a new Game I made using tutorials from SockMunkee.com ...
 
 function love.load()
+
+  love.graphics.setDefaultFilter("nearest","nearest");
   music = love.audio.newSource("assets/sound/music/lmc.mp3", "stream");
   love.audio.play(music);
 
   pNum = 1;
+  pClass = 0;
 
   onMenu = true;
   menu = require("menu");
   menu.loadMenu(pNum);
+  beginGame = false;
+
+  game = require("game");
+  game.loadGame();
 
   willQuit = false;
 end
@@ -16,8 +23,13 @@ end
 function love.update(dt)
   if(onMenu)then
     menu.updateMenu(dt);
-  else
+    pClass, beginGame = menu.checkStart();
 
+    if beginGame then
+      onMenu = false;
+    end
+  else
+    game.updateGame(dt);
   end
 end
 
@@ -25,7 +37,8 @@ function love.draw()
   if(onMenu)then
     menu.drawMenu();
   else
-
+    love.audio.stop();
+    game.drawGame();
   end
 end
 
@@ -58,3 +71,4 @@ function love.keypressed(key, scancode, isrepeat)
   function love.quit()
     -- body...
   end
+end

@@ -1,12 +1,14 @@
 local m = {};
 
 function loadMenu(num)
+  pClass = 0;
   title = love.graphics.newFont("assets/fonts/titlefont.ttf",150);
   namea = 255;
   nameadown = true;
   mainMenu = true;
-  options = false;
-  start = false;
+  optionsMenu = false;
+  startMenu = false;
+  startGame = false;
   mouseX = love.mouse.getX();
   mouseY = love.mouse.getY();
   screenX = 800;
@@ -24,8 +26,14 @@ function loadMenu(num)
   end
   pPrev[1][1] = love.graphics.newImage("assets/playermodels/model1.png");
   pPrev[1][2] = "Red Jacket Kid";
-  prevX = {};
 
+  winW = love.graphics.getWidth();
+  winH = love.graphics.getHeight();
+
+  prevX = {};
+  for i=1,pNum do
+    prevX[i] = (winW / 2) - (252 - (i * 70));
+  end
 end
 
 function drawMenu()
@@ -41,10 +49,10 @@ function drawMenu()
 
   if(mainMenu)then
     drawMainMenu();
-  elseif(options) then
-    drawOptions();
-  elseif(start)then
-    drawStart();
+  elseif(optionsMenu) then
+    drawoptionsMenu();
+  elseif(startMenu)then
+    drawstartMenu();
   elseif(quit) then
   end
 
@@ -61,10 +69,10 @@ function updateMenu(dt)
 
   if(mainMenu)then
     updateMainMenu();
-  elseif(options) then
-    updateOptions();
-  elseif(start)then
-    updateStart();
+  elseif(optionsMenu) then
+    updateoptionsMenu();
+  elseif(startMenu)then
+    updatestartMenu();
   elseif(quit) then
   end
 
@@ -144,25 +152,25 @@ function updateMainMenu()
   end
 end
 
-function optionSwitch()
+function optionsMenuSwitch()
 
-  options = true;
+  optionsMenu = true;
 
 end
 
-function drawOptions()
+function drawoptionsMenu()
 
   love.graphics.print("Options WIP", 210, 370, 0, 0.8, 0.8);
 
 end
 
-function updateOptions()
+function updateoptionsMenu()
 
 
 
 end
 
-function drawStart()
+function drawstartMenu()
 
   local hoverNum = -1;
   for i=1,pNum do
@@ -188,7 +196,7 @@ function drawStart()
   end
 end
 
-function updateStart()
+function updatestartMenu()
   for i=1,pNum do
     prevX[i] = (winW / 2) - (252 - (i * 70));
   end
@@ -201,12 +209,12 @@ function mousepressed(x, y)
         if(y > mainButtonY[i]) and (y < mainButtonY[i] + 60)then
           if i==0 then
             mainMenu = false;
-            start = true;
+            startMenu = true;
 
           elseif i==1 then
 
             mainMenu = false;
-            options = true;
+            optionsMenu = true;
 
           elseif i==2 then
 
@@ -219,13 +227,28 @@ function mousepressed(x, y)
         end
       end
     end
-  elseif(start)then
   end
+  if(startMenu)then
+    for i=1,pNum do
+      if (x > prevX[i]) and (x < prevX[i] + 68) then
+        if(y > 398) and (y < 398 + 68)then
+            startGame = true;
+            pClass = i;
+            break;
+        end
+      end
+    end
+  end
+end
+
+function checkStart()
+  return pClass, startGame;
 end
 
 m.loadMenu = loadMenu;
 m.updateMenu = updateMenu;
 m.drawMenu = drawMenu;
 m.mousepressed = mousepressed;
+m.checkStart = checkStart;
 
 return m;
