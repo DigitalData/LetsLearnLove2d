@@ -15,7 +15,7 @@ function loadGame()
 end
 
 function updateGame(dt)
-  updatePlayer(dt);
+  player.updatePlayer(dt);
   playerStats = player.getStats();
 
 distance = love.physics.getDistance(playerStats.weaponHitboxF, testHitboxF);
